@@ -3,36 +3,9 @@ from wtforms import StringField, SubmitField, PasswordField, DateField, HiddenFi
 from wtforms import validators
 
 
-
-
 def valid_season(form, field):
-    if (field.data) not in ['winter','spring','summer','autinnm']:
+    if (field.data) not in ['winter', 'spring', 'summer', 'autinnm']:
         raise ValidationError("only 4 values")
-
-
-class HolidayForm(Form):
-    holiday_name = StringField("holiday name: ", [
-        validators.DataRequired("Please enter holiday name."),
-        validators.Length(1, 20, "Name should be from 5 to 20 symbols")
-    ])
-
-    season_year = StringField("season year: ", [valid_season,
-        validators.DataRequired("Please enter season year."),
-        validators.Length(1, 20, "Name should be from 5 to 20 symbols")
-    ])
-
-    submit = SubmitField("Save")
-
-
-class HolidayForm1(Form):
-    season_year = StringField("season year: ", [valid_season,
-        validators.DataRequired("Please enter season year."),
-        validators.Length(1, 20, "Name should be from 5 to 20 symbols")
-    ])
-
-    submit = SubmitField("Save")
-
-
 
 
 def valid1(form, field):
@@ -49,22 +22,50 @@ def valid2(form, field):
     if int(field.data) <= 18:
         raise ValidationError('Only for adult users')
 
+
 def valid_pass(form, field):
     if int(field.data) <= 100:
         raise ValidationError('Only more than 100')
+
 
 def valid_count(form, field):
     if int(field.data) <= 0:
         raise ValidationError('Only positive values')
 
 
+def validStr(form, field):
+    for i in field.data:
+        if i.lower() not in list('qwertyuioplkjhgfdsazxcvbnm '):
+            raise ValidationError('Enter a not number and symbol!')
 
+
+class HolidayForm(Form):
+    holiday_name = StringField("holiday name: ", [
+        validators.DataRequired("Please enter holiday name."),
+        validators.Length(1, 20, "Name should be from 5 to 20 symbols")
+    ])
+
+    season_year = StringField("season year: ", [valid_season,
+                                                validators.DataRequired("Please enter season year."),
+                                                validators.Length(1, 20, "Name should be from 5 to 20 symbols")
+                                                ])
+
+    submit = SubmitField("Save")
+
+
+class HolidayForm1(Form):
+    season_year = StringField("season year: ", [valid_season,
+                                                validators.DataRequired("Please enter season year."),
+                                                validators.Length(1, 20, "Name should be from 5 to 20 symbols")
+                                                ])
+
+    submit = SubmitField("Save")
 
 
 class ClientForm(Form):
     passport_num = IntegerField("passport num: ", [valid_pass,
-        validators.DataRequired("Please enter passport num.")
-    ])
+                                                   validators.DataRequired("Please enter passport num.")
+                                                   ])
 
     holiday_name = StringField("holiday name: ", [
         validators.DataRequired("Please enter holiday name."),
@@ -77,13 +78,14 @@ class ClientForm(Form):
 
     name = StringField("name: ", [
         validators.DataRequired("Please enter name."),
-        validators.Length(1, 40, "Name should be from 5 to 40 symbols")
+        validators.Length(1, 40, "Name should be from 5 to 40 symbols"),
+        validStr
     ])
 
     family_state = StringField("family: ", [valid1,
-                                                validators.DataRequired("Please enter your study book."),
-                                                validators.Length(1, 30, "Name should be from 10 to 30 symbols")
-                                                ])
+                                            validators.DataRequired("Please enter your study book."),
+                                            validators.Length(1, 30, "Name should be from 10 to 30 symbols")
+                                            ])
 
     age = IntegerField("age: ", [
         validators.DataRequired("Please enter age."), valid2
@@ -108,13 +110,14 @@ class ClientForm1(Form):
 
     name = StringField("name: ", [
         validators.DataRequired("Please enter name."),
-        validators.Length(1, 40, "Name should be from 5 to 40 symbols")
+        validators.Length(1, 40, "Name should be from 5 to 40 symbols"),
+        validStr
     ])
 
     family_state = StringField("family: ", [valid1,
-                                                validators.DataRequired("Please enter your study book."),
-                                                validators.Length(1, 30, "Name should be from 10 to 30 symbols")
-                                                ])
+                                            validators.DataRequired("Please enter your study book."),
+                                            validators.Length(1, 30, "Name should be from 10 to 30 symbols")
+                                            ])
 
     age = IntegerField("age: ", [valid2,
                                  validators.DataRequired("Please enter age.")
@@ -134,8 +137,8 @@ class PresentsForm(Form):
     ])
 
     count_items = IntegerField("count items: ", [valid_count,
-        validators.DataRequired("Please enter count items.")
-    ])
+                                                 validators.DataRequired("Please enter count items.")
+                                                 ])
 
     store_name = StringField("store name: ", [
         validators.DataRequired("Please enter store name."),
@@ -151,17 +154,17 @@ class PresentsForm1(Form):
     ])
 
     store_name = StringField("store name: ", [valid_count,
-        validators.DataRequired("Please enter store name."),
-        validators.Length(1, 30, "Name should be from 3 to 30 symbols")
-    ])
+                                              validators.DataRequired("Please enter store name."),
+                                              validators.Length(1, 30, "Name should be from 3 to 30 symbols")
+                                              ])
 
     submit = SubmitField("Save")
 
 
 class AIForm(Form):
     passport_num = IntegerField("passport num: ", [valid_pass,
-        validators.DataRequired("Please enter passport num.")
-    ])
+                                                   validators.DataRequired("Please enter passport num.")
+                                                   ])
 
     holiday_name = StringField("holiday name: ", [
         validators.DataRequired("Please enter holiday name."),
@@ -170,7 +173,8 @@ class AIForm(Form):
 
     name = StringField("name: ", [
         validators.DataRequired("Please enter name."),
-        validators.Length(1, 40, "Name should be from 5 to 40 symbols")
+        validators.Length(1, 40, "Name should be from 5 to 40 symbols"),
+        validStr
     ])
 
     family_state = StringField("married: ", [valid1,
