@@ -10,6 +10,7 @@ from sklearn.neural_network import MLPClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import MinMaxScaler, OneHotEncoder, FunctionTransformer
 from sklearn.compose import ColumnTransformer
+from sklearn.cluster import KMeans
 from math import fabs
 
 import plotly
@@ -296,7 +297,9 @@ def new_clients():
                 db.session.commit()
                 return redirect('/clients')
             except:
-                form.passport_num.errors = ['This name already exists!']
+                form.passport_num.errors = ['Maybe this name already exists!']
+                form.holiday_name.errors = ['Maybe this name does not exist!']
+                form.present_name.errors = ['Maybe this name does not exist!']
                 return render_template('client_form.html', form=form, form_name="New client", action="new_clients")
 
     return render_template('client_form.html', form=form, form_name="New client", action="new_clients")
@@ -459,6 +462,8 @@ def dashboard():
             group_by(ormHoliday.holiday_name)
     ).all()
 
+
+
     query3 = (
         db.session.query(
             ormClient.age,
@@ -496,6 +501,16 @@ def dashboard():
         labels=skills,
         values=user_count
     )
+
+
+    Sample = db.session.query(ormClient).all()
+
+    X = []
+    for i in Sample:
+        X.append([i.age])
+
+
+    clust = KMeans(n_clusters=2).fit(X)
 
     data = {
         "bar": [bar],
