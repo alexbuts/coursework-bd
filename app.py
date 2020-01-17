@@ -24,7 +24,7 @@ app = Flask(__name__)
 ENV = 'prod'
 app.secret_key = 'key'
 
-if ENV == 'prod':
+if ENV == 'dev':
     app.debug = True
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:bd@localhost/postgres'
 else:
