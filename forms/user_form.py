@@ -149,12 +149,11 @@ class PresentsForm(Form):
 
 
 class PresentsForm1(Form):
-    count_items = IntegerField("count items: ", [
-        validators.DataRequired("Please enter count items.")
+    count_items = IntegerField("count items: ", [valid_count,
+                                                 validators.DataRequired("Please enter count items.")
     ])
 
-    store_name = StringField("store name: ", [valid_count,
-                                              validators.DataRequired("Please enter store name."),
+    store_name = StringField("store name: ", [validators.DataRequired("Please enter store name."),
                                               validators.Length(1, 30, "Name should be from 3 to 30 symbols")
                                               ])
 
